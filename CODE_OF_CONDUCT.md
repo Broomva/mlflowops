@@ -72,7 +72,7 @@ an environment where participants feel welcome and safe.
 
 
 Reports should be directed to *carlosdavidescobar@gmail.com*, the
-Project Steward(s) for *Databricks Session*. It is the Project Steward’s duty to
+Project Steward(s) for *mlflowops*. It is the Project Steward’s duty to
 receive and address reported violations of the code of conduct. If for any reason you
 are uncomfortable reaching out to the Project Steward, please email
 carlosdavidescobar@gmail.com

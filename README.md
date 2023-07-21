@@ -1,5 +1,5 @@
-# Databricks Session Util
-**A simple utility for spark and mlflow session objects**
+# mlflowops Util
+**MLOps utils with MLFlow**
 
 
 ## Setup
@@ -7,7 +7,7 @@
 ### Quick Install
 
 ```shell
-python -m pip install databricks_session
+python -m pip install mlflowops
 ```
 
 ### Build from source
@@ -15,13 +15,13 @@ python -m pip install databricks_session
 Clone the repository
 
 ```shell
-git clone https://github.com/Broomva/databricks_session.git
+git clone https://github.com/Broomva/mlflowops.git
 ```
 
 Install the package
 
 ``` shell
-cd databricks_session && make install
+cd mlflowops && make install
 ```
 
 ### Build manually
@@ -29,8 +29,8 @@ cd databricks_session && make install
 After cloning, create a virtual environment
 
 ```shell
-conda create -n databricks_session python=3.10
-conda activate databricks_session
+conda create -n mlflowops python=3.10
+conda activate mlflowops
 ```
 
 Install the requirements
@@ -66,11 +66,5 @@ databricks_cluster_id=''
 ```
 
 ```python
-import databricks_session 
-
-# Create a Spark session
-spark = DatabricksSparkSession().get_session()
-
-# Connect to MLFLow Artifact Server
-mlflow_session = DatabricksMLFlowSession().get_session()
+import mlflowops 
 ```
