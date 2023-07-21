@@ -3,11 +3,15 @@ import re
 from typing import Optional
 
 import mlflow
-from azure.identity import (AzureCliCredential, ChainedTokenCredential,
-                            ClientSecretCredential, DefaultAzureCredential,
-                            InteractiveBrowserCredential,
-                            ManagedIdentityCredential,
-                            VisualStudioCodeCredential)
+from azure.identity import (
+    AzureCliCredential,
+    ChainedTokenCredential,
+    ClientSecretCredential,
+    DefaultAzureCredential,
+    InteractiveBrowserCredential,
+    ManagedIdentityCredential,
+    VisualStudioCodeCredential,
+)
 from pydantic import BaseSettings, validator
 
 
@@ -54,17 +58,21 @@ class DatabricksMLFlowSession(MLFlowSession):
         mlflow.set_experiment(self.databricks_experiment_name)
 
         return mlflow
-    
+
 
 class AzureMLFlowSession(MLFlowSession):
-    azureml_experiment_name: str = 'tse_prophet_hyperopt'
+    azureml_experiment_name: str = "tse_prophet_hyperopt"
     azureml_experiment_id: Optional[str] = None
     azureml_subscription_id: Optional[str] = None
     azureml_resource_group: Optional[str] = None
     azureml_workspace_name: Optional[str] = None
     azureml_credential: Optional[object] = None
 
-    def init_credential(self, credential_type: str = "DefaultAzureCredential", credential_args: dict = None):
+    def init_credential(
+        self,
+        credential_type: str = "DefaultAzureCredential",
+        credential_args: dict = None,
+    ):
         if credential_args is None:
             credential_args = {}
         # Map string names to azure.identity classes
@@ -82,28 +90,40 @@ class AzureMLFlowSession(MLFlowSession):
         # Check if the credential is already defined, if not, create a new one of the specified type
         if self.azureml_credential is None:
             if credential_type in credential_types:
-                self.azureml_credential = credential_types[credential_type](**credential_args)
+                self.azureml_credential = credential_types[credential_type](
+                    **credential_args
+                )
             else:
                 raise ValueError(f"Invalid credential type: {credential_type}")
 
     def set_experiment_id(self):
         import os
-        os.environ['experiment_id'] = self.azureml_experiment_id
+
+        os.environ["experiment_id"] = self.azureml_experiment_id
 
     def get_mlclient(self):
         from azure.ai.ml import MLClient
-        ml_client = MLClient(credential=self.azureml_credential,
-                             subscription_id=self.azureml_subscription_id,
-                             resource_group_name=self.azureml_resource_group,
-                             workspace_name=self.azureml_workspace_name)
+
+        ml_client = MLClient(
+            credential=self.azureml_credential,
+            subscription_id=self.azureml_subscription_id,
+            resource_group_name=self.azureml_resource_group,
+            workspace_name=self.azureml_workspace_name,
+        )
         return ml_client
 
     def setup_mlflow(self, ml_client):
-        mlflow_tracking_uri = ml_client.workspaces.get(ml_client.workspace_name).mlflow_tracking_uri
+        mlflow_tracking_uri = ml_client.workspaces.get(
+            ml_client.workspace_name
+        ).mlflow_tracking_uri
         mlflow.set_tracking_uri(mlflow_tracking_uri)
         mlflow.set_experiment(self.azureml_experiment_name)
 
-    def get_session(self, credential_type: str = "DefaultAzureCredential", credential_args: dict = None):
+    def get_session(
+        self,
+        credential_type: str = "DefaultAzureCredential",
+        credential_args: dict = None,
+    ):
         if credential_args is None:
             credential_args = {}
         self.init_credential(credential_type, credential_args)
