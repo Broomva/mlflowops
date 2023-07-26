@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mlflowops"
-version = "0.1.1"
+version = "0.1.2"
 description = "MLOps utils with MLFlow"
 authors = ["Carlos D. Escobar-Valbuena <carlosdavidescobar@gmail.com>"]
 license = "MIT"
